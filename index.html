@@ -1,0 +1,1439 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Profitlab — Поток клиентов с AI за 12 недель</title>
+<meta name="description" content="Profitlab — 12-недельная программа для экспертов 300К–2М ₽/мес. Соберём AI-воронку, которая закрывает 4 заявки в неделю без расходов на рекламу.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#3E3A63">
+<meta property="og:title" content="Profitlab — Поток клиентов с AI">
+<meta property="og:description" content="12 недель. AI-воронка. Без рекламы. Возврат за 3 недели.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* =========================================================
+     DESIGN TOKENS — Profitlab DS v1.0
+     ========================================================= */
+  :root {
+    --ink-900: #1F1F2E;
+    --ink-800: #2E2E2E;
+    --indigo-700: #3E3A63;
+    --indigo-500: #5A557F;
+    --indigo-300: #C5C4D0;
+    --indigo-200: #E4E2F1;
+    --indigo-100: #F1F0F6;
+    --indigo-50:  #F4F3F9;
+    --paper:      #F3F2F8;
+
+    --red-600: #F14B46;
+    --red-500: #F0544F;
+    --blue-400: #42A5F5;
+    --white:   #FFFFFF;
+
+    --shadow-nav:    0 4px 40px rgba(0,0,0,.20);
+    --shadow-card:   0 4px 30px rgba(62,58,99,.20);
+    --shadow-red:    0 4px 30px rgba(240,84,79,.20);
+    --shadow-purple: 0 4px 30px rgba(70,14,112,.20);
+
+    --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --radius-s: 10px;
+    --radius-m: 16px;
+    --radius-l: 24px;
+    --radius-pill: 999px;
+
+    --container: 1280px;
+    --gutter-x: 80px;
+
+    /* Type scale (clamp-based, fluid) */
+    --t-display: clamp(72px, 11vw, 156px);
+    --t-h1:      clamp(48px, 6.2vw, 80px);
+    --t-h2:      clamp(34px, 4vw, 48px);
+    --t-h3:      clamp(22px, 2.4vw, 28px);
+    --t-h4:      clamp(18px, 1.8vw, 22px);
+    --t-body-l:  clamp(16px, 1.4vw, 18px);
+    --t-body:    16px;
+  }
+
+  /* =========================================================
+     RESET + BASE
+     ========================================================= */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+  body {
+    background: var(--indigo-50);
+    color: var(--ink-900);
+    font-family: var(--font);
+    font-size: var(--t-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color-scheme: light;
+    overflow-x: hidden;
+  }
+  img, svg { display: block; max-width: 100%; }
+  button { font-family: inherit; }
+  a { color: inherit; text-decoration: none; }
+  ul { list-style: none; }
+  :focus-visible { outline: 3px solid var(--red-600); outline-offset: 3px; border-radius: 6px; }
+
+  /* =========================================================
+     LAYOUT
+     ========================================================= */
+  .container { max-width: var(--container); margin: 0 auto; padding: 0 var(--gutter-x); }
+  section { padding: 96px 0; }
+  @media (max-width: 1024px) { :root { --gutter-x: 32px; } section { padding: 72px 0; } }
+  @media (max-width: 640px)  { :root { --gutter-x: 20px; } section { padding: 56px 0; } }
+
+  /* =========================================================
+     TOP NAVIGATION — pill with shadow
+     ========================================================= */
+  .topbar {
+    position: sticky; top: 16px; z-index: 100;
+    display: flex; justify-content: center;
+    padding: 0 var(--gutter-x);
+    margin-top: 16px;
+  }
+  .nav-pill {
+    background: var(--white);
+    border: 1px solid #E8E8E8;
+    border-radius: var(--radius-pill);
+    padding: 8px 12px 8px 24px;
+    display: flex; align-items: center; gap: 28px;
+    box-shadow: var(--shadow-nav);
+    max-width: 100%;
+  }
+  .nav-pill .brand {
+    color: var(--indigo-700);
+    font-weight: 800; font-size: 18px; letter-spacing: -0.03em;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .nav-pill .brand .spark { width: 22px; height: 22px; color: var(--red-600); flex-shrink: 0; }
+  .nav-pill nav { display: flex; gap: 22px; align-items: center; }
+  .nav-pill nav a {
+    font-size: 14px; font-weight: 500; color: var(--indigo-700);
+    letter-spacing: -0.01em;
+    transition: color .15s ease;
+  }
+  .nav-pill nav a:hover { color: var(--red-600); }
+  .nav-burger { display: none; background: none; border: 0; cursor: pointer; padding: 8px; color: var(--indigo-700); }
+  .nav-burger svg { width: 24px; height: 24px; }
+  @media (max-width: 880px) {
+    .nav-pill nav { display: none; }
+    .nav-burger { display: inline-flex; }
+    .nav-pill { padding-left: 18px; }
+  }
+
+  /* mobile menu */
+  .mobile-menu {
+    position: fixed; inset: 0; z-index: 200;
+    background: var(--ink-900); color: var(--white);
+    display: none; flex-direction: column;
+    padding: 80px 32px 32px;
+    gap: 32px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { font-size: 28px; font-weight: 600; letter-spacing: -0.03em; color: var(--white); }
+  .mobile-menu a:hover { color: var(--red-500); }
+  .mobile-menu .close { position: absolute; top: 24px; right: 24px; background: none; border: 0; color: var(--white); padding: 8px; cursor: pointer; }
+  .mobile-menu .close svg { width: 28px; height: 28px; }
+
+  /* =========================================================
+     BUTTONS
+     ========================================================= */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: var(--font); font-weight: 700; font-size: 16px;
+    letter-spacing: -0.02em;
+    border-radius: var(--radius-s);
+    padding: 14px 26px;
+    border: 0; cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;
+    white-space: nowrap;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--red-600); color: var(--white); box-shadow: var(--shadow-red); }
+  .btn-primary:hover { background: #d63e3a; }
+  .btn-secondary { background: var(--indigo-200); color: var(--indigo-700); }
+  .btn-secondary:hover { background: var(--indigo-300); }
+  .btn-ghost { background: transparent; color: var(--indigo-700); border: 1px solid rgba(62,58,99,0.2); }
+  .btn-ghost:hover { background: var(--indigo-100); }
+  .btn-ghost-light { background: transparent; color: var(--indigo-200); border: 1px solid rgba(228,226,241,0.3); }
+  .btn-ghost-light:hover { background: rgba(228,226,241,0.08); }
+  .btn-dark { background: var(--indigo-700); color: var(--white); }
+  .btn-dark:hover { background: #4a456e; }
+  .btn-pill { border-radius: var(--radius-pill); padding: 14px 26px; }
+  .btn-lg { padding: 18px 32px; font-size: 18px; }
+  .btn-sm { padding: 10px 18px; font-size: 14px; }
+
+  /* =========================================================
+     HERO
+     ========================================================= */
+  .hero {
+    margin: 24px var(--gutter-x) 0;
+    background: var(--indigo-700);
+    color: var(--white);
+    border-radius: var(--radius-l);
+    padding: 64px 64px 72px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-spark {
+    position: absolute;
+    right: -80px; top: -120px;
+    width: 520px; height: 520px;
+    color: var(--red-600);
+    opacity: 0.18;
+    transform: rotate(15deg);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 16px 8px 12px;
+    border-radius: var(--radius-pill);
+    background: rgba(255,255,255,0.10);
+    font-size: 13px; font-weight: 600; letter-spacing: -0.01em;
+    position: relative; z-index: 1;
+  }
+  .hero-eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red-600); box-shadow: 0 0 0 4px rgba(241,75,70,0.20); }
+  .hero h1 {
+    font-style: italic; font-weight: 800;
+    font-size: var(--t-display);
+    line-height: 0.86;
+    letter-spacing: -0.07em;
+    margin-top: 28px;
+    position: relative; z-index: 1;
+  }
+  .hero h1 em { color: var(--red-600); font-style: italic; }
+  .hero-sub {
+    margin-top: 28px;
+    max-width: 720px;
+    font-size: var(--t-h4);
+    font-weight: 500; line-height: 1.35;
+    letter-spacing: -0.02em;
+    color: var(--indigo-200);
+    position: relative; z-index: 1;
+  }
+  .hero-cta {
+    margin-top: 36px;
+    display: flex; gap: 14px; flex-wrap: wrap;
+    position: relative; z-index: 1;
+  }
+  .hero-meta {
+    margin-top: 40px;
+    display: flex; gap: 12px; flex-wrap: wrap;
+    position: relative; z-index: 1;
+  }
+  .hero-meta .pill {
+    padding: 10px 16px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(228,226,241,0.30);
+    font-size: 13px; font-weight: 600;
+    color: var(--indigo-200);
+    letter-spacing: -0.01em;
+  }
+  .hero-meta .pill b { color: var(--white); font-weight: 700; }
+
+  @media (max-width: 1024px) {
+    .hero { padding: 48px 32px 56px; margin: 24px var(--gutter-x) 0; }
+    .hero-spark { width: 360px; height: 360px; right: -100px; top: -80px; }
+  }
+  @media (max-width: 640px) {
+    .hero { padding: 40px 24px 48px; }
+    .hero-spark { width: 280px; height: 280px; right: -100px; top: -60px; opacity: 0.12; }
+  }
+
+  /* =========================================================
+     SECTION HEAD
+     ========================================================= */
+  .block-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--indigo-200);
+    padding-bottom: 18px;
+    gap: 24px;
+  }
+  .block-head h2 {
+    font-weight: 700; font-style: italic;
+    font-size: var(--t-h2);
+    letter-spacing: -0.045em; line-height: 1;
+    color: var(--indigo-700);
+  }
+  .block-head .ref {
+    font-family: var(--mono); font-size: 12px; color: var(--indigo-500);
+    letter-spacing: 0.05em; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .block-lede {
+    color: var(--indigo-500);
+    max-width: 760px;
+    font-size: var(--t-body-l);
+    line-height: 1.5;
+    margin-bottom: 40px;
+  }
+  .subhead {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--indigo-500);
+    margin-bottom: 18px;
+  }
+
+  /* =========================================================
+     PROBLEM SECTION
+     ========================================================= */
+  .problem-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .problem-card {
+    background: var(--white);
+    border: 1px solid var(--indigo-200);
+    border-radius: var(--radius-m);
+    padding: 28px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .problem-card .num {
+    font-family: var(--mono); font-size: 11px; color: var(--red-600);
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .problem-card h3 {
+    font-size: var(--t-h3);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    color: var(--indigo-700);
+  }
+  .problem-card .symptom {
+    font-size: 14px; line-height: 1.5; color: var(--indigo-500);
+    padding-top: 14px;
+    border-top: 1px dashed var(--indigo-200);
+  }
+  .problem-card .symptom b { color: var(--ink-900); font-weight: 600; }
+  .problem-close {
+    margin-top: 32px;
+    padding: 24px 28px;
+    background: var(--ink-900); color: var(--white);
+    border-radius: var(--radius-m);
+    font-size: var(--t-h4);
+    font-weight: 600; letter-spacing: -0.02em; line-height: 1.35;
+  }
+  .problem-close em { color: var(--red-500); font-style: normal; }
+  @media (max-width: 880px) { .problem-grid { grid-template-columns: 1fr; } }
+
+  /* =========================================================
+     SOLUTION (4 ELEMENTS)
+     ========================================================= */
+  .solution-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  }
+  .solution-card {
+    background: var(--white);
+    border: 1px solid var(--indigo-200);
+    border-radius: var(--radius-m);
+    padding: 28px 24px;
+    display: flex; flex-direction: column; gap: 14px;
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  .solution-card:hover { border-color: var(--indigo-700); transform: translateY(-2px); }
+  .solution-card .label {
+    font-family: var(--mono); font-size: 10px; color: var(--indigo-500);
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .solution-card h3 {
+    font-size: 20px; font-weight: 700;
+    letter-spacing: -0.025em; line-height: 1.15;
+    color: var(--indigo-700);
+  }
+  .solution-card p { font-size: 14px; line-height: 1.5; color: var(--indigo-500); }
+  .solution-card .tool {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px dashed var(--indigo-200);
+    font-size: 12px; font-family: var(--mono); color: var(--red-600);
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  @media (max-width: 1024px) { .solution-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px)  { .solution-grid { grid-template-columns: 1fr; } }
+
+  /* =========================================================
+     QUIZ TEASER (lead magnet — 9 archetypes)
+     ========================================================= */
+  .quiz {
+    background: var(--ink-900); color: var(--white);
+    border-radius: var(--radius-l);
+    padding: 56px 64px;
+    display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: center;
+    overflow: hidden; position: relative;
+  }
+  .quiz h2 {
+    font-style: italic; font-weight: 800;
+    font-size: var(--t-h1);
+    letter-spacing: -0.06em; line-height: 0.92;
+  }
+  .quiz h2 em { color: var(--red-600); font-style: italic; }
+  .quiz p { color: var(--indigo-200); font-size: var(--t-body-l); line-height: 1.45; margin-top: 20px; max-width: 520px; }
+  .quiz .cta-row { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .quiz .stack {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .quiz .archetype {
+    background: rgba(228,226,241,0.06);
+    border: 1px dashed rgba(228,226,241,0.18);
+    border-radius: var(--radius-s);
+    padding: 12px 18px;
+    display: flex; gap: 14px; align-items: center;
+    font-size: 14px; font-weight: 500;
+    color: var(--indigo-200);
+    letter-spacing: -0.01em;
+  }
+  .quiz .archetype .n {
+    font-family: var(--mono); font-size: 11px; color: var(--red-500);
+    width: 28px; flex-shrink: 0;
+  }
+  @media (max-width: 1024px) { .quiz { grid-template-columns: 1fr; padding: 40px 32px; } }
+  @media (max-width: 640px)  { .quiz { padding: 32px 24px; } }
+
+  /* =========================================================
+     PROGRAM ROWS
+     ========================================================= */
+  .program-wrap {
+    background: var(--indigo-700);
+    border-radius: var(--radius-l);
+    padding: 40px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .program-row {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 14px;
+  }
+  .program-meta {
+    background: var(--ink-900); color: var(--white);
+    border-radius: 12px; padding: 18px 20px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    gap: 24px;
+  }
+  .program-meta .week {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--indigo-300);
+  }
+  .program-meta .week b { color: var(--red-500); font-weight: 600; }
+  .program-meta .title {
+    font-size: 20px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.15;
+  }
+  .program-out {
+    background: var(--red-600); color: var(--white);
+    border-radius: 12px; padding: 18px 24px;
+    display: flex; flex-direction: column; gap: 6px; justify-content: center;
+  }
+  .program-out .out-label {
+    font-size: 11px; font-family: var(--mono);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    opacity: 0.8;
+  }
+  .program-out .out-text {
+    font-size: 17px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.35;
+  }
+  @media (max-width: 640px) {
+    .program-wrap { padding: 24px; }
+    .program-row { grid-template-columns: 1fr; }
+  }
+
+  /* =========================================================
+     CHAT FRAME (signature pattern)
+     ========================================================= */
+  .chat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .chat-frame {
+    background: var(--ink-900);
+    color: var(--white);
+    border-radius: var(--radius-m);
+    padding: 28px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .chat-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 6px;
+  }
+  .chat-header .bot {
+    color: var(--indigo-300); font-style: italic; font-weight: 600;
+    font-size: 16px; line-height: 1.3; letter-spacing: -0.02em; max-width: 60%;
+  }
+  .chat-header .role-tag {
+    color: var(--indigo-200); font-weight: 600; font-size: 13px;
+    padding: 6px 12px; background: rgba(228,226,241,0.08);
+    border-radius: var(--radius-pill); white-space: nowrap;
+  }
+  .bubble {
+    max-width: 88%;
+    padding: 16px 20px;
+    border-radius: 18px;
+    font-size: 14px; line-height: 1.45;
+    letter-spacing: -0.01em;
+  }
+  .bubble-user {
+    align-self: flex-end;
+    background: var(--indigo-700); color: var(--white);
+    border-bottom-right-radius: 6px;
+  }
+  .bubble-bot {
+    align-self: flex-start;
+    background: var(--red-600); color: var(--white);
+    border-bottom-left-radius: 6px;
+  }
+  .bubble b { font-weight: 700; }
+  .bubble em { font-style: italic; opacity: 0.92; display: block; margin-top: 10px; font-weight: 600; }
+  @media (max-width: 880px) { .chat-grid { grid-template-columns: 1fr; } }
+
+  /* =========================================================
+     TESTIMONIALS
+     ========================================================= */
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .testi {
+    background: var(--ink-900); color: var(--white);
+    border-radius: var(--radius-m); padding: 24px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .testi-head { display: flex; gap: 14px; align-items: center; }
+  .testi-avatar {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--indigo-700), var(--red-600));
+    display: flex; align-items: center; justify-content: center;
+    color: var(--white); font-weight: 700; font-size: 18px; letter-spacing: -0.02em;
+    flex-shrink: 0;
+  }
+  .testi-avatar.v2 { background: linear-gradient(135deg, var(--red-600), var(--indigo-700)); }
+  .testi-avatar.v3 { background: linear-gradient(135deg, var(--blue-400), var(--indigo-700)); }
+  .testi-avatar.v4 { background: linear-gradient(135deg, var(--indigo-500), var(--ink-900)); }
+  .testi-avatar.v5 { background: linear-gradient(135deg, var(--red-500), var(--blue-400)); }
+  .testi-avatar.v6 { background: linear-gradient(135deg, var(--indigo-700), var(--ink-800)); }
+  .testi-who .n { font-size: 15px; font-weight: 600; }
+  .testi-who .r { font-size: 11px; font-family: var(--mono); color: var(--indigo-300); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
+  .testi .quote { font-size: 14px; line-height: 1.55; color: var(--indigo-200); }
+  .testi .result {
+    background: var(--indigo-700); color: var(--white);
+    padding: 14px 16px; border-radius: var(--radius-s);
+    font-size: 13px; line-height: 1.4;
+    margin-top: auto;
+  }
+  .testi .result b { color: var(--red-500); font-weight: 700; letter-spacing: -0.01em; display: block; margin-bottom: 4px; font-size: 15px; }
+  @media (max-width: 1024px) { .testi-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px)  { .testi-grid { grid-template-columns: 1fr; } }
+
+  /* =========================================================
+     TARIFFS
+     ========================================================= */
+  .tariff-grid {
+    background: var(--indigo-700);
+    border-radius: var(--radius-l);
+    padding: 48px 32px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .tariff {
+    background: var(--ink-900);
+    border-radius: var(--radius-m);
+    padding: 32px 28px;
+    color: var(--white);
+    display: flex; flex-direction: column; gap: 20px;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .tariff.featured { background: var(--red-600); border-color: rgba(255,255,255,0.10); }
+  .tariff h3 {
+    font-size: 32px; font-weight: 700; letter-spacing: -0.03em; line-height: 1;
+  }
+  .tariff .seats {
+    font-size: 11px; font-family: var(--mono);
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .tariff.featured .seats { color: rgba(255,255,255,0.7); }
+  .tariff ul { display: flex; flex-direction: column; gap: 8px; }
+  .tariff ul li {
+    font-size: 14px; line-height: 1.4; opacity: 0.9;
+    padding-left: 18px; position: relative;
+  }
+  .tariff ul li::before {
+    content: ""; position: absolute; left: 0; top: 8px;
+    width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: 0.6;
+  }
+  .tariff .price-label {
+    font-size: 11px; opacity: 0.55; font-family: var(--mono);
+    letter-spacing: 0.04em; text-transform: uppercase;
+    margin-top: auto;
+  }
+  .tariff .price { font-size: 36px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+  .tariff .price small { font-size: 14px; font-weight: 500; opacity: 0.6; margin-left: 6px; }
+  .tariff .ribbon {
+    position: absolute; top: -12px; right: 20px;
+    background: var(--indigo-200); color: var(--indigo-700);
+    font-size: 10px; font-weight: 700; padding: 6px 10px;
+    border-radius: var(--radius-pill); letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  @media (max-width: 1024px) { .tariff-grid { grid-template-columns: 1fr; padding: 24px; } }
+
+  .guarantee {
+    margin-top: 24px;
+    background: var(--white);
+    border: 1px solid var(--indigo-200);
+    border-radius: var(--radius-m);
+    padding: 24px 32px;
+    display: grid; grid-template-columns: auto 1fr auto; gap: 24px; align-items: center;
+  }
+  .guarantee .icon {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--indigo-100); color: var(--red-600);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .guarantee h4 { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; color: var(--indigo-700); }
+  .guarantee p { font-size: 14px; color: var(--indigo-500); margin-top: 4px; }
+  @media (max-width: 640px) {
+    .guarantee { grid-template-columns: auto 1fr; }
+    .guarantee .btn { grid-column: 1 / -1; justify-self: stretch; }
+  }
+
+  /* =========================================================
+     AUTHORS
+     ========================================================= */
+  .authors {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  }
+  .author-card {
+    background: var(--white);
+    border: 1px solid var(--indigo-200);
+    border-radius: var(--radius-m);
+    padding: 36px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .author-head { display: flex; gap: 18px; align-items: center; }
+  .author-avatar {
+    width: 88px; height: 88px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--indigo-700), var(--red-600));
+    color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 28px; letter-spacing: -0.03em;
+    flex-shrink: 0;
+  }
+  .author-card.lily .author-avatar { background: linear-gradient(135deg, var(--red-600), var(--blue-400)); }
+  .author-who .name { font-size: 24px; font-weight: 700; letter-spacing: -0.025em; color: var(--indigo-700); }
+  .author-who .role { font-size: 13px; font-family: var(--mono); color: var(--indigo-500); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 4px; }
+  .author-card .desc { font-size: 15px; line-height: 1.55; color: var(--ink-900); }
+  .author-stats {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    margin-top: auto;
+  }
+  .author-stats .stat {
+    background: var(--indigo-50);
+    border-radius: var(--radius-s);
+    padding: 14px 16px;
+  }
+  .author-stats .stat .v { font-size: 22px; font-weight: 700; color: var(--indigo-700); letter-spacing: -0.02em; line-height: 1; }
+  .author-stats .stat .l { font-size: 11px; font-family: var(--mono); color: var(--indigo-500); margin-top: 6px; letter-spacing: 0.04em; text-transform: uppercase; }
+  @media (max-width: 880px) { .authors { grid-template-columns: 1fr; } }
+
+  /* =========================================================
+     DIAGNOSTIC CTA
+     ========================================================= */
+  .diag {
+    background: var(--indigo-700);
+    color: var(--white);
+    border-radius: var(--radius-l);
+    padding: 64px;
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: center;
+    position: relative; overflow: hidden;
+  }
+  .diag h2 {
+    font-weight: 800; font-style: italic;
+    font-size: var(--t-h1); line-height: 0.92; letter-spacing: -0.06em;
+  }
+  .diag h2 em { color: var(--red-600); font-style: italic; }
+  .diag p { margin-top: 20px; color: var(--indigo-200); font-size: var(--t-body-l); line-height: 1.5; max-width: 480px; }
+  .diag .cta-row { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .diag-checklist {
+    background: rgba(228,226,241,0.06);
+    border: 1px dashed rgba(228,226,241,0.22);
+    border-radius: var(--radius-m);
+    padding: 28px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .diag-checklist .title {
+    font-size: 11px; font-family: var(--mono);
+    color: var(--indigo-300); letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .diag-checklist .item {
+    display: flex; gap: 12px; align-items: flex-start;
+    color: var(--indigo-200); font-size: 14px; line-height: 1.4;
+  }
+  .diag-checklist .item .ch {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--red-600); color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 11px;
+  }
+  @media (max-width: 1024px) { .diag { grid-template-columns: 1fr; padding: 40px 32px; gap: 32px; } }
+  @media (max-width: 640px)  { .diag { padding: 32px 24px; } }
+
+  /* =========================================================
+     FAQ
+     ========================================================= */
+  .faq {
+    display: flex; flex-direction: column;
+    background: var(--white);
+    border: 1px solid var(--indigo-200);
+    border-radius: var(--radius-m);
+    overflow: hidden;
+  }
+  details {
+    border-bottom: 1px solid var(--indigo-200);
+  }
+  details:last-child { border-bottom: 0; }
+  details summary {
+    padding: 24px 28px;
+    font-size: 17px; font-weight: 600; letter-spacing: -0.02em;
+    color: var(--indigo-700);
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 24px;
+    list-style: none;
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::after {
+    content: "+";
+    font-family: var(--mono); font-size: 24px; font-weight: 400;
+    color: var(--red-600);
+    transition: transform .2s ease;
+    flex-shrink: 0;
+  }
+  details[open] summary::after { content: "−"; }
+  details .answer {
+    padding: 0 28px 24px;
+    font-size: 15px; line-height: 1.55; color: var(--indigo-500);
+  }
+
+  /* =========================================================
+     FOOTER
+     ========================================================= */
+  footer {
+    background: var(--ink-900); color: var(--indigo-200);
+    padding: 64px 0 32px;
+    margin-top: 64px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(228,226,241,0.12);
+  }
+  .footer-brand {
+    display: flex; align-items: center; gap: 12px;
+    color: var(--white);
+    font-weight: 800; font-size: 22px; letter-spacing: -0.03em;
+  }
+  .footer-brand .spark { color: var(--red-600); width: 28px; height: 28px; }
+  footer .desc { margin-top: 16px; font-size: 14px; line-height: 1.5; opacity: 0.7; max-width: 320px; }
+  footer .col h5 {
+    font-family: var(--mono); font-size: 11px; color: var(--indigo-300);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px;
+  }
+  footer .col a { display: block; font-size: 14px; padding: 4px 0; color: var(--indigo-200); }
+  footer .col a:hover { color: var(--red-500); }
+  .footer-bottom {
+    margin-top: 24px;
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    font-family: var(--mono); font-size: 11px; color: var(--indigo-300);
+    letter-spacing: 0.04em;
+  }
+  @media (max-width: 880px) { .footer-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+  /* =========================================================
+     ANIMATION on scroll (subtle)
+     ========================================================= */
+  .fade-in { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in { opacity: 1; transform: none; }
+  }
+
+  /* utility */
+  .nowrap { white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     TOP NAV
+     ========================================================= -->
+<header class="topbar" role="banner">
+  <div class="nav-pill" role="navigation" aria-label="Главное меню">
+    <a href="#top" class="brand" aria-label="Profitlab — на главную">
+      <svg class="spark" viewBox="0 0 22 22" aria-hidden="true">
+        <path d="M21.408 8.86c1.179-.989.479-2.911-1.06-2.911H13.355L8.86.592C7.871-.587 5.949.113 5.949 1.652v6.993L.592 13.14c-1.179.989-.479 2.911 1.06 2.911h6.993l4.495 5.357c.989 1.179 2.911.479 2.911-1.06v-6.993l5.357-4.495z" fill="currentColor"/>
+      </svg>
+      <span>Profitlab</span>
+    </a>
+    <nav>
+      <a href="#program">Программа</a>
+      <a href="#cases">Ученики</a>
+      <a href="#tariffs">Тарифы</a>
+      <a href="#authors">Авторы</a>
+      <a href="#faq">FAQ</a>
+      <a href="#diagnostic" class="btn btn-primary btn-pill btn-sm">Записаться</a>
+    </nav>
+    <button class="nav-burger" aria-label="Открыть меню" aria-expanded="false" id="burger">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+    </button>
+  </div>
+</header>
+
+<aside class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <button class="close" aria-label="Закрыть меню" id="closeMenu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+  </button>
+  <a href="#program">Программа</a>
+  <a href="#cases">Ученики</a>
+  <a href="#tariffs">Тарифы</a>
+  <a href="#authors">Авторы</a>
+  <a href="#faq">FAQ</a>
+  <a href="#diagnostic" class="btn btn-primary btn-pill btn-lg" style="align-self: flex-start; margin-top: 16px;">Записаться</a>
+</aside>
+
+<main id="top">
+
+<!-- =========================================================
+     HERO
+     ========================================================= -->
+<section class="hero" aria-labelledby="hero-title">
+  <svg class="hero-spark" viewBox="0 0 22 22" aria-hidden="true">
+    <path d="M21.408 8.86c1.179-.989.479-2.911-1.06-2.911H13.355L8.86.592C7.871-.587 5.949.113 5.949 1.652v6.993L.592 13.14c-1.179.989-.479 2.911 1.06 2.911h6.993l4.495 5.357c.989 1.179 2.911.479 2.911-1.06v-6.993l5.357-4.495z" fill="currentColor"/>
+  </svg>
+
+  <div class="hero-eyebrow">
+    <span class="dot"></span>
+    Старт 29 июня · Возврат за 3 недели · 1500+ выпускников
+  </div>
+
+  <h1 id="hero-title">Поток<br>клиентов <em>с&nbsp;AI</em> — за&nbsp;12&nbsp;недель</h1>
+
+  <p class="hero-sub">Для экспертов с&nbsp;доходом 300К–2М&nbsp;₽/мес. Соберём вашу AI-воронку, которая закрывает 4&nbsp;заявки в&nbsp;неделю — без расходов на&nbsp;рекламу и&nbsp;без выгорания на&nbsp;ручной работе.</p>
+
+  <div class="hero-cta">
+    <a href="#diagnostic" class="btn btn-primary btn-pill btn-lg">Записаться на&nbsp;диагностику</a>
+    <a href="#quiz" class="btn btn-ghost-light btn-pill btn-lg">Пройти квиз «Где&nbsp;ваши деньги»</a>
+  </div>
+
+  <div class="hero-meta">
+    <span class="pill"><b>1500+</b>&nbsp; выпускников</span>
+    <span class="pill"><b>×2,3</b>&nbsp; средний прирост дохода</span>
+    <span class="pill"><b>4 заявки</b>&nbsp; в неделю — целевой поток</span>
+    <span class="pill"><b>100%</b>&nbsp; возврат за 3 недели</span>
+  </div>
+</section>
+
+<!-- =========================================================
+     PROBLEM
+     ========================================================= -->
+<section aria-labelledby="problem-title" class="fade-in">
+  <div class="container">
+    <div class="block-head">
+      <h2 id="problem-title">Знакомо?</h2>
+      <div class="ref">01 · Симптомы</div>
+    </div>
+    <p class="block-lede">Это не&nbsp;про лень и&nbsp;не&nbsp;про «надо больше стараться». Это симптомы того, что у&nbsp;бизнеса нет системы. Каждый из&nbsp;них починяется отдельным модулем программы.</p>
+
+    <div class="problem-grid">
+      <article class="problem-card">
+        <span class="num">01 · Продукт</span>
+        <h3>Экспертиза&nbsp;есть — очереди нет</h3>
+        <div class="symptom"><b>Симптом:</b> Reels собирают 30К+ просмотров, в&nbsp;директ приходят 1–2 человека в&nbsp;месяц. Конверсия из&nbsp;охвата в&nbsp;заявку ниже 0,3%.</div>
+      </article>
+      <article class="problem-card">
+        <span class="num">02 · Клиенты</span>
+        <h3>Цикл клиента короче, чем&nbsp;должен</h3>
+        <div class="symptom"><b>Симптом:</b> Разовый чек&nbsp;— и&nbsp;клиент исчезает. Подписочной модели нет, LTV считаете «на&nbsp;глаз», повторные продажи&nbsp;— случайность.</div>
+      </article>
+      <article class="problem-card">
+        <span class="num">03 · Рутина</span>
+        <h3>На&nbsp;маркетинг просто нет времени</h3>
+        <div class="symptom"><b>Симптом:</b> 60% времени уходит на&nbsp;переписки, КП, повторные ответы. К&nbsp;вечеру нет сил продумать оффер, не&nbsp;то&nbsp;что снять reels.</div>
+      </article>
+    </div>
+
+    <div class="problem-close">Это симптомы того, что у&nbsp;вас нет&nbsp;<em>системы</em>. Не&nbsp;у&nbsp;вас&nbsp;— у&nbsp;бизнеса.</div>
+  </div>
+</section>
+
+<!-- =========================================================
+     SOLUTION
+     ========================================================= -->
+<section aria-labelledby="solution-title" class="fade-in">
+  <div class="container">
+    <div class="block-head">
+      <h2 id="solution-title">4 элемента системы</h2>
+      <div class="ref">02 · Profitlab</div>
+    </div>
+    <p class="block-lede">Программа закрывает четыре уровня сразу. Не&nbsp;«узнать ещё про маркетинг», а&nbsp;собрать рабочую конструкцию&nbsp;— продукт, воронка, контент, AI-помощник.</p>
+
+    <div class="solution-grid">
+      <article class="solution-card">
+        <div class="label">01 · Продукт</div>
+        <h3>Линейка, за&nbsp;которую платят</h3>
+        <p>Базовый, основной, VIP&nbsp;— построенные так, что клиент сам выбирает, какую сумму вам отдать. Без скидок и&nbsp;«ну ладно».</p>
+        <div class="tool">Шаблон офферов</div>
+      </article>
+      <article class="solution-card">
+        <div class="label">02 · Контент</div>
+        <h3>Контент с&nbsp;заявками, не&nbsp;с&nbsp;лайками</h3>
+        <p>3 рабочих формата с&nbsp;вшитым CTA. Перестаёте ловить «охваты ради охватов»&nbsp;— контент приводит конкретных людей в&nbsp;воронку.</p>
+        <div class="tool">3 формата + CTA-фреймворк</div>
+      </article>
+      <article class="solution-card">
+        <div class="label">03 · Клиенты</div>
+        <h3>Воронка с&nbsp;предсказуемым потоком</h3>
+        <p>4 элемента: охват, лид-магнит, прогрев, оффер. Цикл от&nbsp;первого касания до&nbsp;оплаты&nbsp;— 5–10 дней. Метрика, не&nbsp;надежда.</p>
+        <div class="tool">Воронка из 4 шагов</div>
+      </article>
+      <article class="solution-card">
+        <div class="label">04 · AI</div>
+        <h3>Минус 10–15&nbsp;часов рутины в&nbsp;неделю</h3>
+        <p>Персональный бот закрывает повторные вопросы, готовит черновики КП, ведёт первичный диалог. Вы&nbsp;остаётесь только на&nbsp;ключевых решениях.</p>
+        <div class="tool">Бот под вашу нишу</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     QUIZ — lead magnet (9 archetypes)
+     ========================================================= -->
+<section id="quiz" aria-labelledby="quiz-title" class="fade-in">
+  <div class="container">
+    <div class="quiz">
+      <div>
+        <h2 id="quiz-title">Где<br>ваши <em>деньги</em>?</h2>
+        <p>5-минутный квиз. Определите свой архетип «недозарабатывателя», посчитайте income&nbsp;gap&nbsp;— разницу между текущим доходом и&nbsp;тем, что вы&nbsp;могли&nbsp;бы зарабатывать прямо сейчас. И&nbsp;получите 3 ближайших шага, как закрыть этот gap за&nbsp;90&nbsp;дней.</p>
+        <div class="cta-row">
+          <a href="#" class="btn btn-primary btn-pill btn-lg">Пройти квиз — бесплатно</a>
+          <a href="#program" class="btn btn-ghost-light btn-pill btn-lg">Сначала программа</a>
+        </div>
+      </div>
+      <div class="stack" aria-label="9 архетипов недозарабатывания">
+        <div class="archetype"><span class="n">01</span> Невидимый помощник</div>
+        <div class="archetype"><span class="n">02</span> Человек-оркестр</div>
+        <div class="archetype"><span class="n">03</span> Котик-хаотик</div>
+        <div class="archetype"><span class="n">04</span> Эксперт-профессор</div>
+        <div class="archetype"><span class="n">05</span> Добрый волшебник</div>
+        <div class="archetype"><span class="n">06</span> Уставший ветеран</div>
+        <div class="archetype"><span class="n">07</span> Вечный студент</div>
+        <div class="archetype"><span class="n">08</span> Архивариус</div>
+        <div class="archetype"><span class="n">09</span> Растящий единорог</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     PROGRAM
+     ========================================================= -->
+<section id="program" aria-labelledby="program-title" class="fade-in">
+  <div class="container">
+    <div class="block-head">
+      <h2 id="program-title">Программа · 12 недель</h2>
+      <div class="ref">03 · 6 модулей</div>
+    </div>
+    <p class="block-lede">Каждый модуль&nbsp;— одно измеримое изменение в&nbsp;бизнесе. Если в&nbsp;конце недели «Результат» не&nbsp;появился&nbsp;— куратор разбирает почему и&nbsp;что починить.</p>
+
+    <div class="program-wrap">
+      <article class="program-row">
+        <div class="program-meta">
+          <span class="week">Модуль <b>01</b> · недели 1–2</span>
+          <div class="title">Быстрый старт</div>
+        </div>
+        <div class="program-out">
+          <div class="out-label">Результат</div>
+          <div class="out-text">Первое предложение, которое продаёт без&nbsp;скидок</div>
+        </div>
+      </article>
+      <article class="program-row">
+        <div class="program-meta">
+          <span class="week">Модуль <b>02</b> · недели 3–4</span>
+          <div class="title">Сильный оффер</div>
+        </div>
+        <div class="program-out">
+          <div class="out-label">Результат</div>
+          <div class="out-text">Линейка из&nbsp;3 продуктов: вход, основной, VIP</div>
+        </div>
+      </article>
+      <article class="program-row">
+        <div class="program-meta">
+          <span class="week">Модуль <b>03</b> · недели 5–6</span>
+          <div class="title">Поток клиентов</div>
+        </div>
+        <div class="program-out">
+          <div class="out-label">Результат</div>
+          <div class="out-text">Воронка из&nbsp;4 элементов с&nbsp;циклом 5–10 дней</div>
+        </div>
+      </article>
+      <article class="program-row">
+        <div class="program-meta">
+          <span class="week">Модуль <b>04</b> · недели 7–8</span>
+          <div class="title">Контент с&nbsp;заявками</div>
+        </div>
+        <div class="program-out">
+          <div class="out-label">Результат</div>
+          <div class="out-text">3 формата контента с&nbsp;конкретным CTA в&nbsp;каждом</div>
+        </div>
+      </article>
+      <article class="program-row">
+        <div class="program-meta">
+          <span class="week">Модуль <b>05</b> · недели 9–10</span>
+          <div class="title">Продажи без давления</div>
+        </div>
+        <div class="program-out">
+          <div class="out-label">Результат</div>
+          <div class="out-text">Цикл «звонок&nbsp;— предложение&nbsp;— оплата» за&nbsp;7 дней</div>
+        </div>
+      </article>
+      <article class="program-row">
+        <div class="program-meta">
+          <span class="week">Модуль <b>06</b> · недели 11–12</span>
+          <div class="title">AI-ассистент</div>
+        </div>
+        <div class="program-out">
+          <div class="out-label">Результат</div>
+          <div class="out-text">Личный бот собран и&nbsp;работает с&nbsp;вашими клиентами</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     AI BOT — chat-frame pattern
+     ========================================================= -->
+<section aria-labelledby="bot-title" class="fade-in">
+  <div class="container">
+    <div class="block-head">
+      <h2 id="bot-title">Как работает ваш AI-помощник</h2>
+      <div class="ref">04 · Signature</div>
+    </div>
+    <p class="block-lede">Не&nbsp;«AI вообще», а&nbsp;конкретный бот, собранный под&nbsp;вашу нишу за&nbsp;последний модуль программы. Ниже&nbsp;— два реальных диалога из&nbsp;выпуска весна-2026.</p>
+
+    <div class="chat-grid">
+      <div class="chat-frame">
+        <div class="chat-header">
+          <div class="bot">Бот превращает разовый заказ в&nbsp;подписочную модель</div>
+          <div class="role-tag">Дизайнер одежды</div>
+        </div>
+        <div class="bubble bubble-user">Шью платья на&nbsp;заказ, средний чек 15К. Хочу зарабатывать больше</div>
+        <div class="bubble bubble-bot">
+          <b>Продуктовая матрица:</b><br>
+          Базовый: платье по&nbsp;вашим меркам&nbsp;— 15&nbsp;000&nbsp;₽<br>
+          Основной: «Капсула на&nbsp;сезон» — 4&nbsp;вещи + стилистический разбор гардероба&nbsp;— 75&nbsp;000&nbsp;₽<br>
+          VIP: персональный дизайнер на&nbsp;6&nbsp;мес.&nbsp;— 4&nbsp;капсулы + примерки + коррекции&nbsp;— 240&nbsp;000&nbsp;₽
+          <em>Средний чек: с&nbsp;15К до&nbsp;110К за&nbsp;клиента в&nbsp;год</em>
+        </div>
+      </div>
+      <div class="chat-frame">
+        <div class="chat-header">
+          <div class="bot">Бот строит пошаговую воронку по&nbsp;модулю «Клиенты»</div>
+          <div class="role-tag">Фотограф</div>
+        </div>
+        <div class="bubble bubble-user">Как перестать зависеть от&nbsp;сарафана и&nbsp;начать привлекать клиентов системно?</div>
+        <div class="bubble bubble-bot">
+          <b>Воронка привлечения:</b><br>
+          Этап 1: Reels «до/после обработки» (охват)<br>
+          Этап 2: лидмагнит «Как подготовиться к&nbsp;съёмке» (база)<br>
+          Этап 3: email-серия из&nbsp;3 писем (прогрев)<br>
+          Этап 4: оффер «сессия 30 мин за&nbsp;3&nbsp;000&nbsp;₽» (конвертер)
+          <em>Цикл: 5–10 дней от&nbsp;Reels до&nbsp;оплаты</em>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     CASES / TESTIMONIALS
+     ========================================================= -->
+<section id="cases" aria-labelledby="cases-title" class="fade-in">
+  <div class="container">
+    <div class="block-head">
+      <h2 id="cases-title">Реальные ученики</h2>
+      <div class="ref">05 · Кейсы</div>
+    </div>
+    <p class="block-lede">Имя, ниша, цитата, цифры. Все кейсы&nbsp;— из&nbsp;выпуска весна-2026. Каждый ученик согласился на&nbsp;публикацию.</p>
+
+    <div class="testi-grid">
+      <article class="testi">
+        <header class="testi-head">
+          <div class="testi-avatar">ОС</div>
+          <div class="testi-who">
+            <div class="n">Ольга&nbsp;С.</div>
+            <div class="r">Дизайнер одежды</div>
+          </div>
+        </header>
+        <p class="quote">«Делала платья поштучно за&nbsp;15К. Бот собрал из&nbsp;этого подписку «Капсула на&nbsp;сезон»&nbsp;— клиенты остаются на&nbsp;год.»</p>
+        <div class="result">
+          <b>+ 250&nbsp;000 ₽ за&nbsp;месяц</b>
+          средний чек вырос с&nbsp;15К до&nbsp;110К
+        </div>
+      </article>
+      <article class="testi">
+        <header class="testi-head">
+          <div class="testi-avatar v2">ДК</div>
+          <div class="testi-who">
+            <div class="n">Дмитрий&nbsp;К.</div>
+            <div class="r">Остеопат</div>
+          </div>
+        </header>
+        <p class="quote">«Был приём 6&nbsp;000&nbsp;₽&nbsp;— клиенты пропадали после второго раза. Программа «Тело без боли» на&nbsp;8 недель&nbsp;— совсем другая экономика.»</p>
+        <div class="result">
+          <b>72&nbsp;000 ₽ за&nbsp;программу</b>
+          вместо 36&nbsp;000 ₽ за&nbsp;6 разовых приёмов
+        </div>
+      </article>
+      <article class="testi">
+        <header class="testi-head">
+          <div class="testi-avatar v3">ЕЛ</div>
+          <div class="testi-who">
+            <div class="n">Елена&nbsp;Л.</div>
+            <div class="r">Фотограф</div>
+          </div>
+        </header>
+        <p class="quote">«Сарафан кончился — заказов не&nbsp;было 2 месяца. Собрали воронку: Reels + лидмагнит + email + оффер за&nbsp;3К.»</p>
+        <div class="result">
+          <b>4 заказа в&nbsp;неделю</b>
+          стабильный поток от&nbsp;Reels до&nbsp;оплаты
+        </div>
+      </article>
+      <article class="testi">
+        <header class="testi-head">
+          <div class="testi-avatar v4">МР</div>
+          <div class="testi-who">
+            <div class="n">Марина&nbsp;Р.</div>
+            <div class="r">Психолог</div>
+          </div>
+        </header>
+        <p class="quote">«Я&nbsp;была «психологом для всех» с&nbsp;консультацией 4К. Сейчас нишевая программа «Возвращение энергии» за&nbsp;90К&nbsp;— и&nbsp;очередь на&nbsp;3 недели.»</p>
+        <div class="result">
+          <b>×22 средний чек</b>
+          с&nbsp;4К за&nbsp;консультацию до&nbsp;90К за&nbsp;программу
+        </div>
+      </article>
+      <article class="testi">
+        <header class="testi-head">
+          <div class="testi-avatar v5">АТ</div>
+          <div class="testi-who">
+            <div class="n">Алексей&nbsp;Т.</div>
+            <div class="r">Финконсультант</div>
+          </div>
+        </header>
+        <p class="quote">«Раньше каждый клиент&nbsp;— отдельный мир. Сейчас бот закрывает первичные вопросы за&nbsp;меня, а&nbsp;я&nbsp;работаю только на&nbsp;звонках.»</p>
+        <div class="result">
+          <b>− 12 часов в&nbsp;неделю</b>
+          бот отвечает на&nbsp;первичные запросы
+        </div>
+      </article>
+      <article class="testi">
+        <header class="testi-head">
+          <div class="testi-avatar v6">НК</div>
+          <div class="testi-who">
+            <div class="n">Надежда&nbsp;К.</div>
+            <div class="r">Бизнес-тренер</div>
+          </div>
+        </header>
+        <p class="quote">«После входного интервью нашли нишу, в&nbsp;которой я&nbsp;единственный сильный голос. Перестала размазываться по&nbsp;«всем».»</p>
+        <div class="result">
+          <b>с&nbsp;15М до&nbsp;43М ₽/год</b>
+          потенциал воронки после смены ниши
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     TARIFFS
+     ========================================================= -->
+<section id="tariffs" aria-labelledby="tariffs-title" class="fade-in">
+  <div class="container">
+    <div class="block-head">
+      <h2 id="tariffs-title">Тарифы</h2>
+      <div class="ref">06 · Pricing</div>
+    </div>
+    <p class="block-lede">Три формата участия. Содержание программы одинаковое; меняется глубина персонального сопровождения и&nbsp;срок доступа.</p>
+
+    <div class="tariff-grid">
+      <article class="tariff">
+        <h3>База</h3>
+        <div class="seats">старт 29 июня</div>
+        <ul>
+          <li>6 модулей в&nbsp;записи + домашки</li>
+          <li>Доступ к&nbsp;AI-боту — 1 месяц</li>
+          <li>Чат потока с&nbsp;коллабораторами</li>
+          <li>Эфиры с&nbsp;Антоном&nbsp;— раз в&nbsp;неделю</li>
+          <li>Доступ к&nbsp;материалам&nbsp;— 3 месяца</li>
+        </ul>
+        <div class="price-label">Стоимость</div>
+        <div class="price">39&nbsp;900&nbsp;<small>₽</small></div>
+        <a href="#diagnostic" class="btn btn-primary">Записаться</a>
+      </article>
+
+      <article class="tariff featured">
+        <span class="ribbon">Хит</span>
+        <h3>С&nbsp;куратором</h3>
+        <div class="seats">осталось 12 мест</div>
+        <ul>
+          <li>Всё из&nbsp;«Базы»</li>
+          <li>4 разбора 1-на-1 с&nbsp;куратором</li>
+          <li>Сборка оффера и&nbsp;воронки вместе</li>
+          <li>Мастермайнд с&nbsp;Антоном</li>
+          <li>AI-бот&nbsp;— расширенная настройка, 8 мес</li>
+          <li>Доступ к&nbsp;материалам&nbsp;— 6 мес</li>
+        </ul>
+        <div class="price-label">Стоимость</div>
+        <div class="price">89&nbsp;900&nbsp;<small>₽</small></div>
+        <a href="#diagnostic" class="btn btn-dark">Записаться</a>
+      </article>
+
+      <article class="tariff">
+        <h3>VIP</h3>
+        <div class="seats">осталось 3 места</div>
+        <ul>
+          <li>Всё из&nbsp;«С&nbsp;куратором»</li>
+          <li>Личная сессия от&nbsp;Антона</li>
+          <li>Премиум-настройка AI-бота на&nbsp;год</li>
+          <li>VIP-чат с&nbsp;авторами</li>
+          <li>Поддержка 5 мес после спринта</li>
+          <li>Доступ к&nbsp;материалам&nbsp;— 12 мес</li>
+        </ul>
+        <div class="price-label">Стоимость</div>
+        <div class="price">439&nbsp;900&nbsp;<small>₽</small></div>
+        <a href="#diagnostic" class="btn btn-primary">Записаться</a>
+      </article>
+    </div>
+
+    <div class="guarantee">
+      <div class="icon" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      </div>
+      <div>
+        <h4>Не&nbsp;подошло — вернём 100% оплаты</h4>
+        <p>В&nbsp;первые 3 недели программы можно отказаться без&nbsp;объяснений. Деньги возвращаем за&nbsp;3 рабочих дня. Это не&nbsp;примечание в&nbsp;FAQ — это публичное обязательство.</p>
+      </div>
+      <a href="#faq" class="btn btn-ghost">Условия гарантии</a>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     AUTHORS
+     ========================================================= -->
+<section id="authors" aria-labelledby="authors-title" class="fade-in">
+  <div class="container">
+    <div class="block-head">
+      <h2 id="authors-title">Авторы</h2>
+      <div class="ref">07 · Team</div>
+    </div>
+    <p class="block-lede">Программу ведут два человека с&nbsp;разными зонами компетенции. Антон — продукт, AI, бизнес-архитектура. Лиля — контент, аудитория, маркетинговые воронки.</p>
+
+    <div class="authors">
+      <article class="author-card">
+        <header class="author-head">
+          <div class="author-avatar">АК</div>
+          <div class="author-who">
+            <div class="name">Антон Кратасюк</div>
+            <div class="role">Продукт · AI · Бизнес-архитектура</div>
+          </div>
+        </header>
+        <p class="desc">Врач (РГМУ, нейроэндокринология + восточная медицина), 10 лет клинической практики. Основатель программ Profitlab и&nbsp;INTEGRITY. Создатель методологии Neurobehavioral Strategy&nbsp;— на&nbsp;стыке биохимии, поведенческой психологии и&nbsp;бизнес-архитектуры.</p>
+        <div class="author-stats">
+          <div class="stat"><div class="v">200+</div><div class="l">участников INTEGRITY</div></div>
+          <div class="stat"><div class="v">1500+</div><div class="l">выпускников Profitlab</div></div>
+          <div class="stat"><div class="v">47М&nbsp;₽</div><div class="l">продажи 2025</div></div>
+          <div class="stat"><div class="v">10&nbsp;лет</div><div class="l">медицинской практики</div></div>
+        </div>
+      </article>
+
+      <article class="author-card lily">
+        <header class="author-head">
+          <div class="author-avatar">ЛК</div>
+          <div class="author-who">
+            <div class="name">Лиля Ким</div>
+            <div class="role">Контент · Воронки · Аудитория</div>
+          </div>
+        </header>
+        <p class="desc">Сценарист и&nbsp;продюсер, работала с&nbsp;Первым каналом, ТНТ и&nbsp;SONY. Член WGA (Writers Guild of America). Автор Story Club — клуба, в&nbsp;котором обучаются 17&nbsp;000 человек. Отвечает за&nbsp;контент, маркетинговые воронки и&nbsp;удержание внимания аудитории.</p>
+        <div class="author-stats">
+          <div class="stat"><div class="v">17&nbsp;000</div><div class="l">в&nbsp;Story Club</div></div>
+          <div class="stat"><div class="v">WGA</div><div class="l">Writers Guild member</div></div>
+          <div class="stat"><div class="v">15+ лет</div><div class="l">в&nbsp;индустрии контента</div></div>
+          <div class="stat"><div class="v">SONY · ТНТ</div><div class="l">опыт продакшна</div></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     DIAGNOSTIC CTA
+     ========================================================= -->
+<section id="diagnostic" aria-labelledby="diag-title" class="fade-in">
+  <div class="container">
+    <div class="diag">
+      <div>
+        <h2 id="diag-title">Запишитесь<br>на&nbsp;<em>диагностику</em></h2>
+        <p>30 минут разговора с&nbsp;куратором. Вы&nbsp;увидите, где теряются клиенты в&nbsp;вашей экспертной практике, какой архетип «недозарабатывателя» у&nbsp;вас доминирует и&nbsp;как починить это за&nbsp;12 недель.</p>
+        <div class="cta-row">
+          <a href="#" class="btn btn-primary btn-pill btn-lg">Записаться</a>
+          <a href="#" class="btn btn-ghost-light btn-pill btn-lg">Скачать программу PDF</a>
+        </div>
+      </div>
+      <div class="diag-checklist" aria-label="Что получите на диагностике">
+        <div class="title">Что получите за 30 минут</div>
+        <div class="item"><span class="ch" aria-hidden="true">✓</span> Карту вашей воронки с&nbsp;точками потери клиентов</div>
+        <div class="item"><span class="ch" aria-hidden="true">✓</span> Расчёт income gap&nbsp;— сколько вы&nbsp;недозарабатываете прямо сейчас</div>
+        <div class="item"><span class="ch" aria-hidden="true">✓</span> Архетип «недозарабатывателя» и&nbsp;его слепые зоны</div>
+        <div class="item"><span class="ch" aria-hidden="true">✓</span> 3 конкретных шага на&nbsp;ближайший месяц</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     FAQ
+     ========================================================= -->
+<section id="faq" aria-labelledby="faq-title" class="fade-in">
+  <div class="container">
+    <div class="block-head">
+      <h2 id="faq-title">Вопросы</h2>
+      <div class="ref">08 · FAQ</div>
+    </div>
+    <p class="block-lede">Самые частые вопросы, которые задают на&nbsp;диагностических звонках. Если вашего нет&nbsp;— напишите кураторам в&nbsp;чате после записи.</p>
+
+    <div class="faq">
+      <details>
+        <summary>Что входит в&nbsp;«гарантию возврата»?</summary>
+        <div class="answer">В&nbsp;первые 3 недели программы вы&nbsp;можете отказаться и&nbsp;вернуть 100% оплаты без&nbsp;объяснений. Заявка пишется в&nbsp;чат, деньги возвращаем за&nbsp;3 рабочих дня. Условие одно: участие минимум в&nbsp;двух разборах за&nbsp;эти 3 недели&nbsp;— чтобы вы&nbsp;успели увидеть продукт изнутри, а&nbsp;не&nbsp;только обложку.</div>
+      </details>
+      <details>
+        <summary>А&nbsp;если у&nbsp;меня сейчас доход ниже 300К — мне рано?</summary>
+        <div class="answer">Скорее всего, да. Программа выстроена на&nbsp;допущении, что у&nbsp;вас уже есть продукт, клиенты и&nbsp;базовая выручка. Если дохода ещё нет&nbsp;— вам подойдёт квиз «Где ваши деньги» и&nbsp;курс «Запуск». Напишите кураторам, дадим маршрут.</div>
+      </details>
+      <details>
+        <summary>Что такое AI-бот, который мне соберут?</summary>
+        <div class="answer">Это персональный ассистент на&nbsp;базе Claude/GPT, настроенный под&nbsp;вашу нишу, ваш стиль и&nbsp;вашу базу знаний. Он&nbsp;закрывает повторные вопросы клиентов, готовит черновики КП, ведёт первичный диалог в&nbsp;Telegram/WhatsApp. Не&nbsp;«chatGPT с&nbsp;промптом», а&nbsp;собранная система с&nbsp;вашими данными.</div>
+      </details>
+      <details>
+        <summary>Сколько часов в&nbsp;неделю надо вкладывать?</summary>
+        <div class="answer">6–8 часов: 2 часа лекции + 2 часа домашки + 2 часа разбор/чат. Если меньше&nbsp;— результат будет растягиваться, но&nbsp;программа всё равно пройдётся. Если больше&nbsp;— ускоритесь, но&nbsp;не&nbsp;кардинально: ритм 12 недель важнее.</div>
+      </details>
+      <details>
+        <summary>Есть&nbsp;ли рассрочка?</summary>
+        <div class="answer">Да, на&nbsp;3, 6 или 12 месяцев. Через банк-партнёр без&nbsp;комиссии для участника на&nbsp;3 месяца. Подробности — на&nbsp;диагностическом звонке.</div>
+      </details>
+      <details>
+        <summary>Когда старт ближайшего потока?</summary>
+        <div class="answer">29 июня. Следующий поток&nbsp;— середина сентября. Места на&nbsp;тарифах «С&nbsp;куратором» и&nbsp;VIP ограничены физически: куратор берёт максимум 10 учеников, чтобы держать качество разборов.</div>
+      </details>
+      <details>
+        <summary>Я&nbsp;уже учился у&nbsp;других. Зачем мне Profitlab?</summary>
+        <div class="answer">Если другие программы решили вашу задачу — не&nbsp;надо. Если осталось ощущение «знаю что делать, но&nbsp;не&nbsp;делаю»&nbsp;— это центральная проблема, на&nbsp;которой построен Profitlab. Мы&nbsp;не&nbsp;даём «больше информации», мы&nbsp;собираем систему, которая делает то, что вы&nbsp;и&nbsp;так знаете.</div>
+      </details>
+      <details>
+        <summary>Кто такие кураторы?</summary>
+        <div class="answer">Выпускники прошлых потоков, прошедшие отбор Антона и&nbsp;Лили. Каждый куратор — действующий эксперт с&nbsp;собственной практикой и&nbsp;опытом полного прохождения программы. Имена — на&nbsp;диагностическом звонке, чтобы вы&nbsp;могли выбрать.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#top" class="footer-brand">
+          <svg class="spark" viewBox="0 0 22 22" aria-hidden="true">
+            <path d="M21.408 8.86c1.179-.989.479-2.911-1.06-2.911H13.355L8.86.592C7.871-.587 5.949.113 5.949 1.652v6.993L.592 13.14c-1.179.989-.479 2.911 1.06 2.911h6.993l4.495 5.357c.989 1.179 2.911.479 2.911-1.06v-6.993l5.357-4.495z" fill="currentColor"/>
+          </svg>
+          <span>Profitlab</span>
+        </a>
+        <p class="desc">Программа сборки AI-воронки для экспертов. 12 недель. Без&nbsp;расходов на&nbsp;рекламу. Возврат за&nbsp;3 недели.</p>
+      </div>
+      <div class="col">
+        <h5>Программа</h5>
+        <a href="#program">Содержание</a>
+        <a href="#cases">Ученики</a>
+        <a href="#tariffs">Тарифы</a>
+        <a href="#authors">Авторы</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="col">
+        <h5>Контакты</h5>
+        <a href="mailto:hello@profitlab.ru">hello@profitlab.ru</a>
+        <a href="https://t.me/profitlab" target="_blank" rel="noopener">Telegram-канал</a>
+        <a href="#">Юридическая информация</a>
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">Договор оферты</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Profitlab · ООО «Вуман&nbsp;Проджектс»</span>
+      <span>Inter · Indigo&nbsp;700 · Red&nbsp;600</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // mobile menu toggle
+  (function() {
+    var burger = document.getElementById('burger');
+    var menu = document.getElementById('mobile-menu');
+    var close = document.getElementById('closeMenu');
+    function open() { menu.classList.add('open'); menu.setAttribute('aria-hidden', 'false'); burger.setAttribute('aria-expanded', 'true'); }
+    function shut() { menu.classList.remove('open'); menu.setAttribute('aria-hidden', 'true'); burger.setAttribute('aria-expanded', 'false'); }
+    burger.addEventListener('click', open);
+    close.addEventListener('click', shut);
+    menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', shut); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') shut(); });
+  })();
+
+  // IntersectionObserver for fade-in (respects prefers-reduced-motion)
+  (function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('.fade-in').forEach(function(el){ el.classList.add('visible'); });
+      return;
+    }
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.fade-in').forEach(function(el){ el.classList.add('visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el){ io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
