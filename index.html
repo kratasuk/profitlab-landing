@@ -11,6 +11,10 @@
 <meta property="og:description" content="12 недель. AI-воронка. Без рекламы. Возврат за 3 недели.">
 <meta property="og:type" content="website">
 
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.svg">
+<link rel="mask-icon" href="/favicon.svg" color="#F14B46">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -179,71 +183,101 @@
   .btn-sm { padding: 10px 18px; font-size: 14px; }
 
   /* ============================================================
-     HERO
+     HERO — light, centered (v3)
      ============================================================ */
   .hero {
-    margin: 24px var(--gutter-x) 0;
-    background: var(--indigo-700);
-    color: var(--white);
-    border-radius: var(--radius-l);
-    padding: 64px 64px 72px;
     position: relative;
+    padding: 88px var(--gutter-x) 72px;
+    text-align: center;
     overflow: hidden;
   }
-  .hero-spark {
-    position: absolute;
-    right: -80px; top: -120px;
-    width: 480px; height: 480px;
-    color: var(--red-600);
-    opacity: 0.16;
-    transform: rotate(15deg);
+  .hero-bg {
+    position: absolute; inset: 0;
     pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(45% 55% at 90% 100%, rgba(150, 110, 220, 0.30) 0%, rgba(150, 110, 220, 0) 65%),
+      radial-gradient(35% 45% at 10% 100%, rgba(228, 226, 241, 0.60) 0%, rgba(228, 226, 241, 0) 70%),
+      radial-gradient(60% 60% at 50% 0%, rgba(244, 243, 249, 0.4) 0%, transparent 80%);
   }
-  .hero-eyebrow {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 8px 16px 8px 12px;
-    border-radius: var(--radius-pill);
-    background: rgba(255,255,255,0.10);
-    font-size: 13px; font-weight: 600; letter-spacing: -0.01em;
+  .hero-pills {
     position: relative; z-index: 1;
+    display: inline-flex; gap: 10px; flex-wrap: wrap;
+    justify-content: center;
   }
-  .hero-eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red-600); box-shadow: 0 0 0 4px rgba(241,75,70,0.20); }
+  .hero-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--indigo-700);
+  }
+  .hero-pill.brand { background: var(--indigo-200); }
+  .hero-pill.brand .spark { width: 14px; height: 14px; color: var(--red-600); flex-shrink: 0; }
+  .hero-pill.date {
+    background: transparent;
+    border: 1px solid rgba(62, 58, 99, 0.25);
+    color: var(--indigo-500);
+  }
   .hero h1 {
-    font-style: italic; font-weight: 800;
-    font-size: var(--t-display);
-    line-height: 0.88;
-    letter-spacing: -0.06em;
-    margin-top: 28px;
     position: relative; z-index: 1;
+    font-weight: 800;
+    font-size: clamp(38px, 6.5vw, 92px);
+    line-height: 1.02;
+    letter-spacing: -0.05em;
+    color: var(--indigo-700);
+    margin: 28px auto 0;
+    max-width: 1080px;
   }
-  .hero h1 em { color: var(--red-600); font-style: italic; }
+  .hero h1 em {
+    color: var(--red-600);
+    font-style: normal;
+  }
   .hero-sub {
-    margin-top: 28px;
-    max-width: 720px;
-    font-size: var(--t-h4);
-    font-weight: 500; line-height: 1.4;
-    letter-spacing: -0.02em;
-    color: var(--indigo-200);
     position: relative; z-index: 1;
+    margin: 22px auto 0;
+    max-width: 620px;
+    font-size: clamp(17px, 1.6vw, 20px);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+    color: var(--indigo-700);
   }
-  .hero-cta { margin-top: 36px; display: flex; gap: 14px; flex-wrap: wrap; position: relative; z-index: 1; }
-  .hero-meta { margin-top: 40px; display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
-  .hero-meta .pill {
-    padding: 10px 16px;
-    border-radius: var(--radius-pill);
-    border: 1px solid rgba(228,226,241,0.30);
+  .hero-cta {
+    position: relative; z-index: 1;
+    margin-top: 36px;
+    display: flex; gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-outline-red {
+    background: transparent;
+    color: var(--red-600);
+    border: 1.5px solid var(--red-600);
+  }
+  .btn-outline-red:hover { background: rgba(241, 75, 70, 0.06); transform: translateY(-1px); }
+  .hero-trust {
+    position: relative; z-index: 1;
+    margin: 48px auto 0;
+    display: inline-flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    color: var(--indigo-500);
     font-size: 13px; font-weight: 600;
-    color: var(--indigo-200);
-    letter-spacing: -0.01em;
   }
-  .hero-meta .pill b { color: var(--white); font-weight: 700; }
-  @media (max-width: 1024px) {
-    .hero { padding: 48px 32px 56px; }
-    .hero-spark { width: 340px; height: 340px; right: -100px; top: -80px; }
+  .hero-trust b { color: var(--indigo-700); font-weight: 700; }
+  .hero-trust .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--indigo-300); flex-shrink: 0; }
+
+  @media (max-width: 880px) {
+    .hero { padding: 56px var(--gutter-x) 56px; }
+    .hero-trust { gap: 14px; font-size: 12px; }
   }
-  @media (max-width: 640px) {
-    .hero { padding: 36px 24px 44px; margin: 16px var(--gutter-x) 0; }
-    .hero-spark { width: 240px; height: 240px; right: -90px; top: -50px; opacity: .12; }
+  @media (max-width: 480px) {
+    .hero { padding: 40px var(--gutter-x) 48px; }
+    .hero-trust .dot { display: none; }
   }
 
   /* ============================================================
@@ -939,7 +973,7 @@
       <svg class="spark" viewBox="0 0 22 22" aria-hidden="true">
         <path d="M21.408 8.86c1.179-.989.479-2.911-1.06-2.911H13.355L8.86.592C7.871-.587 5.949.113 5.949 1.652v6.993L.592 13.14c-1.179.989-.479 2.911 1.06 2.911h6.993l4.495 5.357c.989 1.179 2.911.479 2.911-1.06v-6.993l5.357-4.495z" fill="currentColor"/>
       </svg>
-      <span>Profitlab</span>
+      <span>ПрофитЛАБ</span>
     </a>
     <nav class="nav-links" aria-label="Главное меню">
       <a href="#changes">Что изменится</a>
@@ -972,32 +1006,36 @@
 <main id="top">
 
 <!-- ============================================================
-     HERO
+     HERO — light centered (v3, original-inspired)
      ============================================================ -->
 <section class="hero" aria-labelledby="hero-title">
-  <svg class="hero-spark" viewBox="0 0 22 22" aria-hidden="true">
-    <path d="M21.408 8.86c1.179-.989.479-2.911-1.06-2.911H13.355L8.86.592C7.871-.587 5.949.113 5.949 1.652v6.993L.592 13.14c-1.179.989-.479 2.911 1.06 2.911h6.993l4.495 5.357c.989 1.179 2.911.479 2.911-1.06v-6.993l5.357-4.495z" fill="currentColor"/>
-  </svg>
+  <div class="hero-bg" aria-hidden="true"></div>
 
-  <div class="hero-eyebrow">
-    <span class="dot"></span>
-    Старт 29 июня · Возврат за 3 недели · 1500+ выпускников
+  <div class="hero-pills">
+    <span class="hero-pill brand">
+      <svg class="spark" viewBox="0 0 22 22" aria-hidden="true">
+        <path d="M21.408 8.86c1.179-.989.479-2.911-1.06-2.911H13.355L8.86.592C7.871-.587 5.949.113 5.949 1.652v6.993L.592 13.14c-1.179.989-.479 2.911 1.06 2.911h6.993l4.495 5.357c.989 1.179 2.911.479 2.911-1.06v-6.993l5.357-4.495z" fill="currentColor"/>
+      </svg>
+      ПРОФИТЛАБ
+    </span>
+    <span class="hero-pill date">Старт 29 июня</span>
   </div>
 
-  <h1 id="hero-title">Поток<br>клиентов <em>с&nbsp;AI</em> — за&nbsp;12&nbsp;недель</h1>
+  <h1 id="hero-title">Система <em>создания<br>потока&nbsp;клиентов с&nbsp;помощью&nbsp;AI</em></h1>
 
-  <p class="hero-sub">Для экспертов с&nbsp;доходом 200К–2М&nbsp;₽/мес. Соберём вашу AI-воронку, которая закрывает 4&nbsp;заявки в&nbsp;неделю — без расходов на&nbsp;рекламу и&nbsp;без выгорания на&nbsp;ручной работе.</p>
+  <p class="hero-sub">для экспертов, которые устали&nbsp;«недозарабатывать»</p>
 
   <div class="hero-cta">
-    <a href="#diagnostic" class="btn btn-primary btn-pill btn-lg">Записаться на&nbsp;диагностику</a>
-    <a href="#changes" class="btn btn-ghost-light btn-pill btn-lg">Что внутри программы</a>
+    <a href="#program" class="btn btn-outline-red btn-pill btn-lg">Программа</a>
+    <a href="#tariffs" class="btn btn-primary btn-pill btn-lg">Тарифы&nbsp;→</a>
   </div>
 
-  <div class="hero-meta">
-    <span class="pill"><b>1500+</b>&nbsp; выпускников</span>
-    <span class="pill"><b>×2,3</b>&nbsp; средний прирост дохода</span>
-    <span class="pill"><b>4 заявки</b>&nbsp; в неделю — целевой поток</span>
-    <span class="pill"><b>100%</b>&nbsp; возврат за 3 недели</span>
+  <div class="hero-trust">
+    <span><b>1500+</b>&nbsp;выпускников</span>
+    <span class="dot"></span>
+    <span><b>×2,3</b>&nbsp;прирост дохода</span>
+    <span class="dot"></span>
+    <span><b>100%</b>&nbsp;возврат за&nbsp;3&nbsp;недели</span>
   </div>
 </section>
 
@@ -1846,7 +1884,7 @@
           <svg class="spark" viewBox="0 0 22 22" aria-hidden="true">
             <path d="M21.408 8.86c1.179-.989.479-2.911-1.06-2.911H13.355L8.86.592C7.871-.587 5.949.113 5.949 1.652v6.993L.592 13.14c-1.179.989-.479 2.911 1.06 2.911h6.993l4.495 5.357c.989 1.179 2.911.479 2.911-1.06v-6.993l5.357-4.495z" fill="currentColor"/>
           </svg>
-          <span>Profitlab</span>
+          <span>ПрофитЛАБ</span>
         </a>
         <p class="desc">Программа сборки AI-воронки для&nbsp;экспертов. 12 недель. Без расходов на&nbsp;рекламу. Возврат за&nbsp;3 недели.</p>
       </div>
