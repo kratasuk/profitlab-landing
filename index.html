@@ -562,126 +562,96 @@
   }
 
   .program-list {
-    position: relative;
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding-left: 80px;
-  }
-  .program-list::before {
-    content: "";
-    position: absolute;
-    left: 31px;
-    top: 32px;
-    bottom: 32px;
-    width: 2px;
-    background: var(--indigo-200);
-  }
-  .program-step {
-    position: relative;
-    padding: 28px 0 32px;
-    border-bottom: 1px dashed var(--indigo-200);
-  }
-  .program-step:last-child { border-bottom: 0; padding-bottom: 8px; }
-  .program-step:first-child { padding-top: 0; }
-  .program-step-num {
-    position: absolute;
-    left: -80px;
-    top: 28px;
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: var(--white);
-    border: 2px solid var(--indigo-700);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--mono);
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--indigo-700);
-    letter-spacing: -0.01em;
-    z-index: 1;
-  }
-  .program-step:first-child .program-step-num { top: 0; }
-  .program-step-meta {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--indigo-500);
-    margin-bottom: 10px;
-  }
-  .program-step-meta b {
-    color: var(--red-600);
-    font-weight: 600;
-  }
-  .program-step h3 {
-    font-size: clamp(22px, 2.4vw, 28px);
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 1.2;
-    color: var(--indigo-700);
-    margin-bottom: 18px;
-  }
-  .program-step ul {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 22px;
+    gap: 14px;
   }
-  .program-step ul li {
-    font-size: var(--t-body-l);
-    line-height: 1.55;
+  .program-mod {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 14px;
+  }
+  .pg-card {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 26px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 2px 18px rgba(62,58,99,0.06);
+  }
+  .pg-pills { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .pg-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600; letter-spacing: -0.01em;
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    color: var(--indigo-700);
+  }
+  .pg-pill.mod { background: var(--indigo-200); }
+  .pg-pill.wk {
+    background: transparent;
+    border: 1px dashed rgba(62,58,99,0.30);
+    color: var(--indigo-500);
+  }
+  .pg-pill.wk svg { width: 12px; height: 12px; color: var(--red-600); flex-shrink: 0; }
+  .pg-card h3 {
+    font-size: clamp(20px, 2.1vw, 24px);
+    font-weight: 700;
+    color: var(--indigo-700);
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    margin: 0;
+  }
+  .pg-card ul {
+    display: flex; flex-direction: column; gap: 8px;
+    margin: 0; padding: 0; list-style: none;
+  }
+  .pg-card ul li {
+    font-size: 14px;
+    line-height: 1.5;
     color: var(--ink-900);
-    padding-left: 22px;
+    padding-left: 18px;
     position: relative;
   }
-  .program-step ul li::before {
+  .pg-card ul li::before {
     content: "";
     position: absolute;
-    left: 0;
-    top: 9px;
-    width: 8px;
-    height: 8px;
+    left: 0; top: 8px;
+    width: 6px; height: 6px;
     background: var(--red-600);
-    border-radius: 2px;
+    border-radius: 50%;
   }
-  .program-outcome {
-    background: var(--indigo-50);
-    border-left: 3px solid var(--red-600);
-    border-radius: 0 var(--radius-s) var(--radius-s) 0;
-    padding: 14px 18px;
-    margin-bottom: 14px;
-    font-size: 15px;
-    line-height: 1.5;
-    color: var(--ink-900);
+  .pg-result {
+    background: var(--red-600);
+    color: var(--white);
+    border-radius: 18px;
+    padding: 28px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    box-shadow: 0 4px 24px rgba(241,75,70,0.22);
   }
-  .program-outcome .l {
+  .pg-result .lbl {
     font-family: var(--mono);
     font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--red-600);
-    display: block;
-    margin-bottom: 4px;
-  }
-  .program-effect {
-    font-size: 15px;
-    line-height: 1.5;
-    color: var(--indigo-500);
-    padding-left: 18px;
-    border-left: 1px solid var(--indigo-200);
-  }
-  .program-effect b {
-    color: var(--indigo-700);
+    opacity: 0.85;
     font-weight: 600;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 4px;
+  }
+  .pg-result .effect {
+    font-size: clamp(17px, 1.7vw, 19px);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+  }
+  @media (max-width: 880px) {
+    .program-mod { grid-template-columns: 1fr; }
+    .pg-card, .pg-result { padding: 22px 22px; }
   }
 
   .program-summary {
@@ -1348,122 +1318,140 @@
 
     <div class="program-list">
 
-      <article class="program-step">
-        <div class="program-step-num">M1</div>
-        <div class="program-step-meta">Модуль <b>01</b> · 1 неделя</div>
-        <h3>Ваш идеальный клиент и&nbsp;за&nbsp;что он&nbsp;готов платить</h3>
-        <ul>
-          <li>Определяем один точный сегмент — людей, которые приносят деньги, а&nbsp;не&nbsp;просто пишут «спасибо за&nbsp;пост»</li>
-          <li>Проводите 3–5 интервью с&nbsp;реальными представителями этого сегмента</li>
-          <li>ИИ-ассистент собирает из&nbsp;интервью словарь клиента — фразы, которыми он&nbsp;сам описывает свою боль</li>
-        </ul>
-        <div class="program-outcome">
-          <span class="l">На выходе</span>
-          Профиль целевого клиента + 10–20 живых цитат, на&nbsp;которых строится весь следующий маркетинг.
+      <article class="program-mod">
+        <div class="pg-card">
+          <div class="pg-pills">
+            <span class="pg-pill mod">Модуль 01</span>
+            <span class="pg-pill wk">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+              1 неделя
+            </span>
+          </div>
+          <h3>Ваш идеальный клиент и&nbsp;за&nbsp;что он&nbsp;готов платить</h3>
+          <ul>
+            <li>Определяем один точный сегмент &ndash; людей, которые приносят деньги, а&nbsp;не&nbsp;просто пишут «спасибо за&nbsp;пост»</li>
+            <li>Проводите 3&ndash;5 интервью с&nbsp;реальными представителями этого сегмента</li>
+            <li>ИИ-ассистент собирает из&nbsp;интервью словарь клиента &ndash; фразы, которыми он&nbsp;сам описывает свою боль</li>
+          </ul>
         </div>
-        <div class="program-effect">
-          <b>Эффект в&nbsp;бизнесе</b>
-          Вы&nbsp;перестаёте писать «в&nbsp;пустоту» и&nbsp;начинаете говорить словами, в&nbsp;которых клиент узнаёт себя за&nbsp;две секунды.
-        </div>
-      </article>
-
-      <article class="program-step">
-        <div class="program-step-num">M2</div>
-        <div class="program-step-meta">Модуль <b>02</b> · 2 недели</div>
-        <h3>Оффер, который объясняется за&nbsp;минуту</h3>
-        <ul>
-          <li>Упаковываете экспертизу в&nbsp;один измеримый результат, который клиент готов покупать</li>
-          <li>Назначаете цену, которую можно произнести без внутренней паузы</li>
-          <li>Собираете доказательства метода — кейсы или логику, почему это работает</li>
-          <li>ИИ-ассистент генерирует 5–10 вариантов формулировки оффера, тестирует звучание и&nbsp;собирает доказательства в&nbsp;структуру «было → стало → как»</li>
-        </ul>
-        <div class="program-outcome">
-          <span class="l">На выходе</span>
-          Оффер, описанный по&nbsp;формуле «помогаю кому → за&nbsp;срок → получить результат → за&nbsp;столько». Готов к&nbsp;продаже сегодня.
-        </div>
-        <div class="program-effect">
-          <b>Эффект в&nbsp;бизнесе</b>
-          Появляется одно предложение, на&nbsp;которое отвечают «да».
+        <div class="pg-result">
+          <div class="lbl">Результат в&nbsp;бизнесе</div>
+          <div class="effect">Вы&nbsp;перестаёте писать «в&nbsp;пустоту» и&nbsp;начинаете говорить словами, в&nbsp;которых клиент узнаёт себя за&nbsp;две секунды</div>
         </div>
       </article>
 
-      <article class="program-step">
-        <div class="program-step-num">M3</div>
-        <div class="program-step-meta">Модуль <b>03</b> · 2 недели</div>
-        <h3>Первые продажи без сайтов и&nbsp;воронок</h3>
-        <ul>
-          <li>Составляете список 20–30 человек, которым можете предложить оффер прямо сейчас</li>
-          <li>Проводите 5–10 диагностических разговоров по&nbsp;структурированному скрипту</li>
-          <li>Учитесь слышать сигналы готовности и&nbsp;доводить до&nbsp;оплаты</li>
-          <li>ИИ-ассистент готовит скрипт встречи под&nbsp;конкретного клиента, после разговора анализирует, что сработало, а&nbsp;что нет, и&nbsp;собирает базу возражений с&nbsp;готовыми ответами</li>
-        </ul>
-        <div class="program-outcome">
-          <span class="l">На выходе</span>
-          Проверенный на&nbsp;живых людях оффер + первые продажи + список возражений с&nbsp;готовыми ответами.
+      <article class="program-mod">
+        <div class="pg-card">
+          <div class="pg-pills">
+            <span class="pg-pill mod">Модуль 02</span>
+            <span class="pg-pill wk">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+              2 недели
+            </span>
+          </div>
+          <h3>Оффер, который объясняется за&nbsp;минуту</h3>
+          <ul>
+            <li>Упаковываете экспертизу в&nbsp;один измеримый результат, который клиент готов покупать</li>
+            <li>Назначаете цену, которую можно произнести без внутренней паузы</li>
+            <li>Собираете доказательства метода &ndash; кейсы или логику, почему это работает</li>
+            <li>ИИ-ассистент генерирует 5&ndash;10 вариантов формулировки оффера, тестирует звучание и&nbsp;собирает доказательства в&nbsp;структуру «было → стало → как»</li>
+          </ul>
         </div>
-        <div class="program-effect">
-          <b>Эффект в&nbsp;бизнесе</b>
-          Деньги приходят до&nbsp;того, как вы&nbsp;построили сложную систему. Это валидация, что продукт работает.
-        </div>
-      </article>
-
-      <article class="program-step">
-        <div class="program-step-num">M4</div>
-        <div class="program-step-meta">Модуль <b>04</b> · 2 недели</div>
-        <h3>Магнит, который собирает клиентов 24/7</h3>
-        <ul>
-          <li>Создаёте лидмагнит — короткий бесплатный материал, после которого человек хочет узнать о&nbsp;вас больше</li>
-          <li>Тестируете его на&nbsp;10–20 людях и&nbsp;дорабатываете под&nbsp;реальные реакции</li>
-          <li>Настраиваете автоматический сбор контактов</li>
-          <li>ИИ-ассистент собирает структуру лидмагнита под&nbsp;выявленную боль, пишет черновик контента и&nbsp;настраивает автоматическую серию сообщений после получения</li>
-        </ul>
-        <div class="program-outcome">
-          <span class="l">На выходе</span>
-          Работающий лидмагнит, который собирает 15–30 заинтересованных контактов в&nbsp;месяц без вашего участия.
-        </div>
-        <div class="program-effect">
-          <b>Эффект в&nbsp;бизнесе</b>
-          Появляется первый актив бизнеса, который работает, пока вы&nbsp;спите.
+        <div class="pg-result">
+          <div class="lbl">Результат в&nbsp;бизнесе</div>
+          <div class="effect">Появляется одно предложение, на&nbsp;которое отвечают «да»</div>
         </div>
       </article>
 
-      <article class="program-step">
-        <div class="program-step-num">M5</div>
-        <div class="program-step-meta">Модуль <b>05</b> · 2 недели</div>
-        <h3>Контент, который приводит клиентов, а&nbsp;не&nbsp;лайки</h3>
-        <ul>
-          <li>Делаете контент-план на&nbsp;месяц по&nbsp;логике «боль → кейс → метод → призыв»</li>
-          <li>Пишете 12 постов под&nbsp;этот план — вы&nbsp;вкладываете смысл, ИИ&nbsp;помогает со&nbsp;структурой</li>
-          <li>Запускаете регулярную публикацию и&nbsp;закрепляете привычку публиковать стабильно</li>
-          <li>ИИ-ассистент превращает ваши голосовые и&nbsp;заметки в&nbsp;готовые посты, держит ритм публикаций и&nbsp;переупаковывает одну идею в&nbsp;разные форматы — пост, сторис, сценарий reels</li>
-        </ul>
-        <div class="program-outcome">
-          <span class="l">На выходе</span>
-          База из&nbsp;12 постов + работающий ритм публикаций + первые заявки на&nbsp;консультацию из&nbsp;контента.
+      <article class="program-mod">
+        <div class="pg-card">
+          <div class="pg-pills">
+            <span class="pg-pill mod">Модуль 03</span>
+            <span class="pg-pill wk">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+              2 недели
+            </span>
+          </div>
+          <h3>Первые продажи без сайтов и&nbsp;воронок</h3>
+          <ul>
+            <li>Составляете список 20&ndash;30 человек, которым можете предложить оффер прямо сейчас</li>
+            <li>Проводите 5&ndash;10 диагностических разговоров по&nbsp;структурированному скрипту</li>
+            <li>Учитесь слышать сигналы готовности и&nbsp;доводить до&nbsp;оплаты</li>
+            <li>ИИ-ассистент готовит скрипт встречи под&nbsp;конкретного клиента и&nbsp;собирает базу возражений с&nbsp;готовыми ответами</li>
+          </ul>
         </div>
-        <div class="program-effect">
-          <b>Эффект в&nbsp;бизнесе</b>
-          К&nbsp;вам начинают приходить тёплые люди, которые уже знают, кто вы&nbsp;и&nbsp;за&nbsp;что платят.
+        <div class="pg-result">
+          <div class="lbl">Результат в&nbsp;бизнесе</div>
+          <div class="effect">Деньги приходят до&nbsp;того, как вы&nbsp;построили сложную систему. Это валидация, что продукт работает</div>
         </div>
       </article>
 
-      <article class="program-step">
-        <div class="program-step-num">M6</div>
-        <div class="program-step-meta">Модуль <b>06</b> · 3 недели</div>
-        <h3>Каналы роста: коллаборации и&nbsp;реклама</h3>
-        <ul>
-          <li>Собираете карту из&nbsp;10–15 партнёров со&nbsp;смежной аудиторией и&nbsp;запускаете первые 3 коллаборации</li>
-          <li>Готовите контент к&nbsp;платному трафику и&nbsp;тестируете рекламу на&nbsp;лучших органических постах</li>
-          <li>Получаете предсказуемый поток заявок, который можно усиливать бюджетом</li>
-          <li>ИИ-ассистент оценивает потенциальных партнёров на&nbsp;пересечение аудитории, пишет первые касания и&nbsp;собирает рекламные креативы из&nbsp;ваших&nbsp;же постов, которые уже сработали</li>
-        </ul>
-        <div class="program-outcome">
-          <span class="l">На выходе</span>
-          Запущенный канал коллабораций + первый рекламный тест + понимание стоимости заявки.
+      <article class="program-mod">
+        <div class="pg-card">
+          <div class="pg-pills">
+            <span class="pg-pill mod">Модуль 04</span>
+            <span class="pg-pill wk">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+              2 недели
+            </span>
+          </div>
+          <h3>Магнит, который собирает клиентов 24/7</h3>
+          <ul>
+            <li>Создаёте лидмагнит &ndash; короткий бесплатный материал, после которого человек хочет узнать о&nbsp;вас больше</li>
+            <li>Тестируете его на&nbsp;10&ndash;20 людях и&nbsp;дорабатываете под&nbsp;реальные реакции</li>
+            <li>Настраиваете автоматический сбор контактов</li>
+            <li>ИИ-ассистент собирает структуру лидмагнита под&nbsp;выявленную боль и&nbsp;настраивает автоматическую серию сообщений после получения</li>
+          </ul>
         </div>
-        <div class="program-effect">
-          <b>Эффект в&nbsp;бизнесе</b>
-          Вы&nbsp;знаете, откуда придут клиенты в&nbsp;следующем месяце, и&nbsp;можете это контролировать.
+        <div class="pg-result">
+          <div class="lbl">Результат в&nbsp;бизнесе</div>
+          <div class="effect">Появляется первый актив бизнеса, который работает, пока вы&nbsp;спите</div>
+        </div>
+      </article>
+
+      <article class="program-mod">
+        <div class="pg-card">
+          <div class="pg-pills">
+            <span class="pg-pill mod">Модуль 05</span>
+            <span class="pg-pill wk">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+              2 недели
+            </span>
+          </div>
+          <h3>Контент, который приводит клиентов, а&nbsp;не&nbsp;лайки</h3>
+          <ul>
+            <li>Делаете контент-план на&nbsp;месяц по&nbsp;логике «боль → кейс → метод → призыв»</li>
+            <li>Пишете 12 постов под&nbsp;этот план: вы&nbsp;вкладываете смысл, ИИ&nbsp;помогает со&nbsp;структурой</li>
+            <li>Запускаете регулярную публикацию и&nbsp;закрепляете привычку публиковать стабильно</li>
+            <li>ИИ-ассистент превращает голосовые и&nbsp;заметки в&nbsp;готовые посты, переупаковывает одну идею в&nbsp;пост, сторис, сценарий reels</li>
+          </ul>
+        </div>
+        <div class="pg-result">
+          <div class="lbl">Результат в&nbsp;бизнесе</div>
+          <div class="effect">К&nbsp;вам начинают приходить тёплые люди, которые уже знают, кто вы&nbsp;и&nbsp;за&nbsp;что платят</div>
+        </div>
+      </article>
+
+      <article class="program-mod">
+        <div class="pg-card">
+          <div class="pg-pills">
+            <span class="pg-pill mod">Модуль 06</span>
+            <span class="pg-pill wk">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+              3 недели
+            </span>
+          </div>
+          <h3>Каналы роста: коллаборации и&nbsp;реклама</h3>
+          <ul>
+            <li>Собираете карту из&nbsp;10&ndash;15 партнёров со&nbsp;смежной аудиторией и&nbsp;запускаете первые 3 коллаборации</li>
+            <li>Готовите контент к&nbsp;платному трафику и&nbsp;тестируете рекламу на&nbsp;лучших органических постах</li>
+            <li>Получаете предсказуемый поток заявок, который можно усиливать бюджетом</li>
+            <li>ИИ-ассистент оценивает партнёров на&nbsp;пересечение аудитории и&nbsp;собирает рекламные креативы из&nbsp;ваших&nbsp;же постов, которые уже сработали</li>
+          </ul>
+        </div>
+        <div class="pg-result">
+          <div class="lbl">Результат в&nbsp;бизнесе</div>
+          <div class="effect">Вы&nbsp;знаете, откуда придут клиенты в&nbsp;следующем месяце, и&nbsp;можете это контролировать</div>
         </div>
       </article>
 
