@@ -244,45 +244,119 @@
   }
 
   /* ============================================================
-     PROBLEM — light cards 3x2
+     PROBLEM — interactive checklist
      ============================================================ */
-  .problem-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  .problem-sub {
+    text-align: center;
+    font-size: 17px; font-weight: 600;
+    color: var(--indigo-700);
+    letter-spacing: -0.015em;
+    margin: -16px auto 32px;
   }
-  .problem-card {
+  .problem-sub b { color: var(--red-600); font-weight: 700; }
+
+  .checklist {
+    max-width: 640px;
+    margin: 0 auto;
     background: var(--white);
-    border: 1px solid var(--indigo-200);
     border-radius: var(--radius-m);
-    padding: 24px;
-    display: flex; flex-direction: column; gap: 14px;
-    transition: border-color .2s ease, transform .2s ease;
+    padding: 6px 4px;
+    box-shadow: 0 2px 18px rgba(62,58,99,0.06);
   }
-  .problem-card:hover { border-color: var(--red-600); transform: translateY(-2px); }
-  .problem-card .num {
-    font-family: var(--mono); font-size: 22px; color: var(--red-600);
-    letter-spacing: -0.02em; font-weight: 600;
+  .checklist .row {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 22px;
+    cursor: pointer;
+    border-bottom: 1px dashed var(--indigo-200);
+    transition: background .15s ease;
   }
-  .problem-card h3 {
-    font-size: 18px;
+  .checklist .row:last-child { border-bottom: 0; }
+  .checklist .row:hover { background: var(--indigo-50); }
+  .checklist input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .checklist .cb {
+    width: 28px; height: 28px;
+    border-radius: 7px;
+    border: 2px solid var(--indigo-300);
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all .15s ease;
+  }
+  .checklist .cb svg {
+    width: 16px; height: 16px;
+    stroke: var(--white);
+    stroke-width: 3;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0;
+    transition: opacity .15s ease;
+  }
+  .checklist input:checked + .cb {
+    background: var(--red-600);
+    border-color: var(--red-600);
+  }
+  .checklist input:checked + .cb svg { opacity: 1; }
+  .checklist .num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--indigo-300);
     font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 1.3;
-    color: var(--indigo-700);
+    letter-spacing: 0.04em;
+    transition: color .15s ease;
   }
-  .problem-close {
-    margin-top: 32px;
-    padding: 24px 32px;
-    background: var(--white);
-    border: 1px solid var(--indigo-200);
-    border-left: 4px solid var(--red-600);
+  .checklist input:checked ~ .num { color: var(--red-600); }
+  .checklist .text {
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--indigo-700);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    transition: color .15s ease, font-weight .15s ease;
+  }
+  .checklist input:checked ~ .text {
+    color: var(--ink-900);
+    font-weight: 600;
+  }
+
+  .check-counter {
+    max-width: 640px;
+    margin: 22px auto 0;
+    padding: 18px 24px;
+    text-align: center;
+    font-size: 16px;
+    color: var(--indigo-700);
+    font-weight: 500;
+    letter-spacing: -0.01em;
     border-radius: var(--radius-m);
-    font-size: var(--t-h4);
-    font-weight: 600; letter-spacing: -0.02em; line-height: 1.4;
-    color: var(--indigo-700);
+    transition: background .25s ease, color .25s ease;
   }
-  .problem-close em { color: var(--red-600); font-style: normal; font-weight: 700; }
-  @media (max-width: 880px) { .problem-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px) { .problem-grid { grid-template-columns: 1fr; } }
+  .check-counter b {
+    font-family: var(--mono);
+    color: var(--red-600);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-right: 6px;
+  }
+  .check-counter .msg { color: var(--indigo-700); font-weight: 600; }
+  .check-counter.full {
+    background: var(--red-600);
+    color: var(--white);
+  }
+  .check-counter.full b, .check-counter.full .msg { color: var(--white); }
+
+  @media (max-width: 560px) {
+    .checklist .row { padding: 14px 16px; gap: 12px; }
+    .checklist .text { font-size: 15px; }
+  }
 
   /* ============================================================
      WHAT-CHANGES — Tabbed signature pattern
@@ -1059,22 +1133,55 @@
 </section>
 
 <!-- ============================================================
-     PROBLEM — 6 light cards (centered head, no numbers)
+     PROBLEM — interactive checklist
      ============================================================ -->
 <section aria-labelledby="problem-title" class="fade-in">
   <div class="container">
     <h2 id="problem-title" class="centered-head">Знакомо?</h2>
+    <p class="problem-sub">У&nbsp;большинства экспертов <b>3&ndash;4 из&nbsp;6</b>. А&nbsp;у&nbsp;вас?</p>
 
-    <div class="problem-grid">
-      <article class="problem-card"><h3>Экспертиза есть, а&nbsp;очереди из&nbsp;клиентов&nbsp;— нет</h3></article>
-      <article class="problem-card"><h3>Часто приходится работать «не&nbsp;со&nbsp;своими» людьми</h3></article>
-      <article class="problem-card"><h3>Сложно повысить цену, хотя давно пора</h3></article>
-      <article class="problem-card"><h3>Клиенты приходят нерегулярно и&nbsp;непредсказуемо</h3></article>
-      <article class="problem-card"><h3>Всё на&nbsp;вас: и&nbsp;контент, и&nbsp;продажи, и&nbsp;поддержка</h3></article>
-      <article class="problem-card"><h3>На&nbsp;маркетинг нет ни&nbsp;времени, ни&nbsp;сил</h3></article>
+    <div class="checklist" id="checklist">
+      <label class="row">
+        <input type="checkbox" data-i="1">
+        <span class="cb" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8L7 12L13 4"/></svg></span>
+        <span class="num">01</span>
+        <span class="text">Экспертиза есть, а&nbsp;очереди из&nbsp;клиентов&nbsp;&ndash; нет</span>
+      </label>
+      <label class="row">
+        <input type="checkbox" data-i="2">
+        <span class="cb" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8L7 12L13 4"/></svg></span>
+        <span class="num">02</span>
+        <span class="text">Часто приходится работать «не со&nbsp;своими» людьми</span>
+      </label>
+      <label class="row">
+        <input type="checkbox" data-i="3">
+        <span class="cb" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8L7 12L13 4"/></svg></span>
+        <span class="num">03</span>
+        <span class="text">Сложно повысить цену, хотя давно пора</span>
+      </label>
+      <label class="row">
+        <input type="checkbox" data-i="4">
+        <span class="cb" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8L7 12L13 4"/></svg></span>
+        <span class="num">04</span>
+        <span class="text">Клиенты приходят нерегулярно и&nbsp;непредсказуемо</span>
+      </label>
+      <label class="row">
+        <input type="checkbox" data-i="5">
+        <span class="cb" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8L7 12L13 4"/></svg></span>
+        <span class="num">05</span>
+        <span class="text">Всё на&nbsp;вас: и&nbsp;контент, и&nbsp;продажи, и&nbsp;поддержка</span>
+      </label>
+      <label class="row">
+        <input type="checkbox" data-i="6">
+        <span class="cb" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8L7 12L13 4"/></svg></span>
+        <span class="num">06</span>
+        <span class="text">На&nbsp;маркетинг нет ни&nbsp;времени, ни&nbsp;сил</span>
+      </label>
     </div>
 
-    <div class="problem-close">Это симптомы того, что у&nbsp;вас нет рабочей <em>системы</em>.</div>
+    <div class="check-counter" id="checkCounter" aria-live="polite">
+      <b>0</b> из 6 &middot; <span class="msg">сейчас узнаем, сколько у&nbsp;вас</span>
+    </div>
   </div>
 </section>
 
@@ -1917,6 +2024,58 @@
 </footer>
 
 <script>
+  // checklist «Знакомо?»
+  (function() {
+    var list = document.getElementById('checklist');
+    var counter = document.getElementById('checkCounter');
+    if (!list || !counter) return;
+    var boxes = list.querySelectorAll('input[type="checkbox"]');
+    var messages = [
+      'сейчас узнаем, сколько у вас',
+      'один. Локальная проблема, не системная',
+      'два. Уже не случайность',
+      'три. Это уже про систему, а не про усилия',
+      'четыре. Бизнес работает в полсилы',
+      'пять. Шестой просто стесняется поднять руку',
+      'шесть из 6. Без системы дальше круги по воде'
+    ];
+    var STORAGE_KEY = 'profitlab.symptoms.v1';
+
+    function loadState() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        var saved = JSON.parse(raw);
+        boxes.forEach(function(b) {
+          var i = b.getAttribute('data-i');
+          if (saved.indexOf(parseInt(i, 10)) !== -1) b.checked = true;
+        });
+      } catch (e) {}
+    }
+
+    function saveState() {
+      try {
+        var checked = [];
+        boxes.forEach(function(b) {
+          if (b.checked) checked.push(parseInt(b.getAttribute('data-i'), 10));
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+      } catch (e) {}
+    }
+
+    function update() {
+      var n = 0;
+      boxes.forEach(function(b) { if (b.checked) n++; });
+      counter.classList.toggle('full', n === 6);
+      counter.innerHTML = '<b>' + n + '</b> из 6 · <span class="msg">' + messages[n] + '</span>';
+      saveState();
+    }
+
+    loadState();
+    update();
+    boxes.forEach(function(b) { b.addEventListener('change', update); });
+  })();
+
   // tabs
   (function() {
     var tabs = document.querySelectorAll('.tab-btn');
